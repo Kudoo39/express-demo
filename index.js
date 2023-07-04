@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
 
 app.get('/api/courses', (req, res) => {
     res.send([1, 2, 3]);
-})
+});
 
 
 //api/courses/1
