@@ -12,8 +12,8 @@ app.get('/api/courses', (req, res) => {
 
 
 //api/posts/:year
-app.get('/api/posts/:year/:moth', (req, res) => {
-    res.send(req.params);
+app.get('/api/posts/:year/:month', (req, res) => {
+    res.send(req.query);
 });
 
 // PORT
