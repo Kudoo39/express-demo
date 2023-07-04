@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const express = require('express');
 const app = express();
 
@@ -15,6 +16,14 @@ app.get('/', (req, res) => {
 app.get('/api/courses', (req, res) => {
     res.send(courses);
 });
+
+//INPUT VALIDADION
+app.post('api/courses', (req, res) => {
+    if(!req.body.name || req.body.name.length < 3) {
+        res.status(400).send('Name is required and should be minimum 3 characters');
+        return;
+    }
+})
 
 //HTTP POST Request
 app.post('/api/courses', (req, res) => {
