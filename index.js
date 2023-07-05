@@ -19,13 +19,13 @@ app.get('/api/courses', (req, res) => {
 
 //INPUT VALIDADION
 app.post('api/courses', (req, res) => {
-    const scheme = {
+    const schema = {
         name: Joi.string().min(3).required()
     };
 
     const result = Joi.validate(req.body, schema);
     if(result.error) {
-        res.status(400).send(result.error.);
+        res.status(400).send(result.error);
         return;
     }
 })
