@@ -18,15 +18,12 @@ app.get('/api/courses', (req, res) => {
 });
 
 
-//HTTP POST Request
+//HTTP POST Requests
 app.post('/api/courses', (req, res) => {
     //INPUT VALIDADION
     const { error } = validateCourse(req.body); //result.error
     //In valid -> return 400 bad request
-    if(error) {
-        res.status(400).send(error.details[0].message);
-        return;
-    }
+    if(error) return res.status(400).send(error.details[0].message);
 
     const course = {
         id: courses.length + 1,
@@ -36,10 +33,10 @@ app.post('/api/courses', (req, res) => {
     res.send(course);
 });
 
-//api
+//HTTP GET Requests
 app.get('/api/courses/:id', (req, res) => {
     const course = courses.find(c => c.id === parseInt(req.params.id));
-    if (!course) res.status(404).send('The course with given ID was not found!!');//404
+    if (!course) return res.status(404).send('The course with given ID was not found!!');//404
     res.send(course);
 });
 
@@ -51,14 +48,13 @@ app.listen(port, () => console.log(`Listening on port ${port}...`));
 app.put('api/courses/:id', (req, res) => {
     //Look up the course, if no, return 404
     const course = courses.find(c => c.id === parseInt(req.params.id));
-    if (!course) res.status(404).send('The course with given ID was not found!!');//404
+    if (!course) return res.status(404).send('The course with given ID was not found!!');//404
+    
     
     const { error } = validateCourse(req.body); //result.error
     //In valid -> return 400 bad request
-    if(error) {
-        res.status(400).send(error.details[0].message);
-        return;
-    }
+    if(error) return res.status(400).send(error.details[0].message);
+      
 
     //update
     course.name = req.body.name;
@@ -73,3 +69,17 @@ function validateCourse(course) {
 
     return schema.validate(course);
 }
+
+//HTTP DELETE Requests
+app.delete('/api/courses/:id', (req, res) => {
+    //Find the course, if no => return 404
+    const course = courses.find(c => c.id === parseInt(req.params.id));
+    if (!course) return res.status(404).send('The course with given ID was not found!!');//404
+
+    //Delete
+    const index = courses.indexOf(course);
+    courses.splice(index, 1);
+
+    //Return the same course
+    res.send(course);
+})
