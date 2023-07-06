@@ -35,6 +35,7 @@ app.post('/api/courses', (req, res) => {
 
 //HTTP GET Requests
 app.get('/api/courses/:id', (req, res) => {
+    //look up for the course
     const course = courses.find(c => c.id === parseInt(req.params.id));
     if (!course) return res.status(404).send('The course with given ID was not found!!');//404
     res.send(course);
